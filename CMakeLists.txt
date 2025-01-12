@@ -26,14 +26,14 @@ add_executable(
 enable_testing()
 
 add_executable(
-    OrderBookTest
+    run_tests
     tests/OrderBookTest.cpp
 )
 
 target_link_libraries(
-    OrderBookTest
+  run_tests
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(OrderBookTest)
+gtest_discover_tests(run_tests)
