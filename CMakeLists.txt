@@ -17,12 +17,17 @@ FetchContent_MakeAvailable(googletest)
 set(SOURCES
     test/OrderBookTest.cpp)
 
+add_executable(
+        ats
+        src/main.cpp
+    )
+
 # target_sources(mini-ats PUBLIC "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/main.cpp>")
 enable_testing()
 
 add_executable(
     OrderBookTest
-    main.cpp
+    tests/OrderBookTest.cpp
 )
 
 target_link_libraries(
