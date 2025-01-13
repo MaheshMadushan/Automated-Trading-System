@@ -20,7 +20,7 @@ namespace orderbook
     {
         long time_stamp;
         long quantity;
-        std::string instrument; // read size from configs
+        long instrument; // read size from configs
         OrderType order_type;
     };
 
@@ -28,7 +28,7 @@ namespace orderbook
     {
         long time_stamp;
         long quantity;
-        std::string instrument; // read size from configs
+        long instrument; // read size from configs
         OrderType order_type;
         OrderKey(const Order order)
         {
@@ -47,13 +47,16 @@ namespace orderbook
         }
     };
 
+    // think abouth the hash function
     struct OrderHash
     {
         std::size_t operator()(const OrderKey& orderKey) const noexcept
         {
-            std::size_t h1 = std::hash<std::string>{}(orderKey.instrument);
-            std::size_t h2 = std::hash<int>{}(orderKey.quantity);
-            return h1 ^ (h2 << 1); // or use boost::hash_combine
+            std::size_t h1 = std::hash<long>{}(orderKey.instrument);
+            std::size_t h2 = std::hash<long>{}(orderKey.quantity);
+            std::size_t h3 = std::hash<int>{}(static_cast<int>(orderKey.order_type));
+            std::size_t h4 = std::hash<long>{}(orderKey.time_stamp);
+            return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 4); // or use boost::hash_combine
         }
     };
 
