@@ -17,11 +17,11 @@ TEST_F(OrderBookTest, OrderBook_Hash_Consistent_Test)
 {
   for (auto it : OrderBookTest::symbol_to_index_map)
   {
-    orderbook::Order ok{100, 900, it.second, orderbook::OrderType::BUY}; 
-    auto hash = orderbook::OrderHash{}(orderbook::OrderKey(ok));
+    orderbook::Order order{100, 900, it.second, orderbook::OrderType::BUY}; 
+    auto hash = orderbook::OrderHash{}(orderbook::OrderKey(order));
     EXPECT_EQ(
-      (std::hash<long>{}(ok.instrument) ^ (std::hash<long>{}(ok.quantity) << 1) ^ 
-      (std::hash<int>{}(static_cast<int>(ok.order_type)) << 2) ^ (std::hash<long>{}(ok.time_stamp) << 4)), 
+      (std::hash<long>{}(order.instrument) ^ (std::hash<long>{}(order.quantity) << 1) ^ 
+      (std::hash<int>{}(static_cast<int>(order.order_type)) << 2) ^ (std::hash<long>{}(order.time_stamp) << 4)), 
       hash);
   }
 }
