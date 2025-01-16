@@ -10,22 +10,14 @@
 
 namespace orderbook
 {
-
-    enum class OrderType : int
-    {
-        SELL = 0,
-        BUY = 1
-    };
-
-    // struct Price
-    // {
-    //     int whole_part;
-    //     int cents;
-    // };
-    
-
     struct Order
     {
+        enum class OrderType : int
+        {
+            SELL = 0,
+            BUY = 1
+        };
+
         long time_stamp;
         long quantity;
         int price;
@@ -39,7 +31,7 @@ namespace orderbook
         long quantity;
         int price;
         long instrument; // read size from configs
-        OrderType order_type;
+        Order::OrderType order_type;
 
         OrderKey(const Order &order)
         {
@@ -79,7 +71,7 @@ namespace orderbook
     {
         bool operator()(const Order &leftOrder, const Order &rightOrder) const noexcept
         {
-            return static_cast<T *>(this)->compare(leftOrder, rightOrder);
+            return static_cast<const T&>(*this).compare(leftOrder, rightOrder);
         }
 
         bool compare(const Order &leftOrder, const Order &rightOrder) { return false; }
@@ -99,7 +91,7 @@ namespace orderbook
         }
     };
 
-    class BuyOrderPriorityCompartor : public StateLessOrderPriorityComparator<SellOrderPriorityCompartor>
+    class BuyOrderPriorityCompartor : public StateLessOrderPriorityComparator<BuyOrderPriorityCompartor>
     {
         // lowest price at top, price is equal then lowest qunatity is at top, if both equal oldest order at the top
         bool compare(const Order &leftOrder, const Order &rightOrder) const noexcept
@@ -115,10 +107,12 @@ namespace orderbook
 
     class OrderBook
     {
+        typedef std::priority_queue<Order, std::vector<Order>, SellOrderPriorityCompartor> SellOrderPriorityQueue;
+        typedef std::priority_queue<Order, std::vector<Order>, BuyOrderPriorityCompartor> BuyOrderPriorityQueue;
     private:
         std::unordered_map<orderbook::OrderKey, Order, OrderHash> m_all_orders; // let's think about hashing
-        std::priority_queue<Order, std::vector<Order>, SellOrderPriorityCompartor> m_sell_orders_priority_q;
-        std::priority_queue<Order, std::vector<Order>, BuyOrderPriorityCompartor> m_buy_orders_priority_q;
+        SellOrderPriorityQueue m_sell_orders_priority_q;
+        BuyOrderPriorityQueue m_buy_orders_priority_q;
 
     public:
         OrderBook();
@@ -131,6 +125,9 @@ namespace orderbook
 
         inline void addOrder(const Order &order_to_add);
         inline void removeOrder(const Order &order_to_remove);
+
+        SellOrderPriorityQueue getSellOrders() const;
+        BuyOrderPriorityQueue getBuyOrders() const;
     };
 
 } // namespace orderbook
