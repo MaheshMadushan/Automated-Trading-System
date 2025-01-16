@@ -23,6 +23,19 @@ namespace orderbook
         int price;
         long instrument; // read size from configs
         OrderType order_type;
+
+        bool operator==(const Order& other)
+        {
+            return (this->time_stamp == other.time_stamp &&
+                    this->quantity == other.quantity &&
+                    this->price == other.price &&
+                    this->instrument == other.instrument &&
+                    this->order_type == other.order_type);
+        }
+
+        void toString() {
+            std::cout << time_stamp << " " << quantity << " " << price << " " << instrument << " " << static_cast<int>(order_type) << std::endl;
+        }
     };
 
     struct OrderKey
@@ -69,6 +82,7 @@ namespace orderbook
     template <class T>
     class StateLessOrderPriorityComparator
     {
+        public:
         bool operator()(const Order &leftOrder, const Order &rightOrder) const noexcept
         {
             return static_cast<const T&>(*this).compare(leftOrder, rightOrder);
@@ -80,13 +94,14 @@ namespace orderbook
     class SellOrderPriorityCompartor : public StateLessOrderPriorityComparator<SellOrderPriorityCompartor>
     {
         // highest price at top, price is equal then highest qunatity is at top, if both equal oldest order at the top
+        public:
         bool compare(const Order &leftOrder, const Order &rightOrder) const noexcept
         {
             if (leftOrder.price > rightOrder.price) return true;
             else if (leftOrder.price < rightOrder.price) return false;
             else if (leftOrder.quantity > rightOrder.quantity) return true; // price is equal
             else if (leftOrder.quantity < rightOrder.quantity) return false;
-            else if (leftOrder.time_stamp < rightOrder.time_stamp) return true; // price and quantity equal
+            else if (rightOrder.time_stamp < leftOrder.time_stamp) return true; // price and quantity equal
             return false; // price , quantity and timestamp is equal (what to do if time stamp is also equal ?)
         }
     };
@@ -94,13 +109,14 @@ namespace orderbook
     class BuyOrderPriorityCompartor : public StateLessOrderPriorityComparator<BuyOrderPriorityCompartor>
     {
         // lowest price at top, price is equal then lowest qunatity is at top, if both equal oldest order at the top
+        public:
         bool compare(const Order &leftOrder, const Order &rightOrder) const noexcept
         {
             if (leftOrder.price < rightOrder.price) return true;
             else if (leftOrder.price > rightOrder.price) return false;
             else if (leftOrder.quantity < rightOrder.quantity) return true; // price is equal
             else if (leftOrder.quantity > rightOrder.quantity) return false;
-            else if (leftOrder.time_stamp < rightOrder.time_stamp) return true; // price and quantity equal
+            else if (rightOrder.time_stamp < leftOrder.time_stamp) return true; // price and quantity equal
             return false; // price , quantity and timestamp is equal (what to do if time stamp is also equal ?)
         }
     };
@@ -115,7 +131,7 @@ namespace orderbook
         BuyOrderPriorityQueue m_buy_orders_priority_q;
 
     public:
-        OrderBook();
+        OrderBook(){};
 
         OrderBook(const OrderBook &other) = delete;       // no copying
         OrderBook &operator=(const OrderBook &) = delete; // no copy assignment
@@ -123,8 +139,8 @@ namespace orderbook
         OrderBook(OrderBook &&other) = delete;            // no moving
         OrderBook &operator=(OrderBook &&other) = delete; // no move assignment
 
-        inline void addOrder(const Order &order_to_add);
-        inline void removeOrder(const Order &order_to_remove);
+        void addOrder(const orderbook::Order &order_to_add);
+        void removeOrder(const Order &order_to_remove);
 
         SellOrderPriorityQueue getSellOrders() const;
         BuyOrderPriorityQueue getBuyOrders() const;
