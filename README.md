@@ -7,21 +7,4 @@
 # Running tests
 `cd build && ./run_tests`
 
-`
-Defining life of an order and trade
-
-order -> matching engine -> *process -> order not matched -> put all/remaining on the order book
-                            |                                           A
-                            v                                           |
-                            order matched -> partially fullfilled -------
-                            |                       |
-                            v                       |
-                            fullfilled              | (async)
-                            |                       |
-                            v             (async)   v
-                            trade done ---------> post trade activities (async)
-                            |
-                            v
-                            update order book
-
-`
+![{84A29E2B-FEF7-4274-914E-E8186FFAD7C5}](https://github.com/user-attachments/assets/789ab24e-49ae-4e82-9ba5-e47b31b0d770)
