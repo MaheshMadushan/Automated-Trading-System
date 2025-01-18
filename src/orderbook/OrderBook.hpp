@@ -93,7 +93,7 @@ namespace orderbook
 
     class SellOrderPriorityCompartor : public StateLessOrderPriorityComparator<SellOrderPriorityCompartor>
     {
-        // highest price at top, price is equal then highest qunatity is at top, if both equal oldest order at the top
+        // lowest price at top, price is equal then highest qunatity is at top, if both equal oldest order at the top
         public:
         bool compare(const Order &leftOrder, const Order &rightOrder) const noexcept
         {
@@ -108,7 +108,7 @@ namespace orderbook
 
     class BuyOrderPriorityCompartor : public StateLessOrderPriorityComparator<BuyOrderPriorityCompartor>
     {
-        // lowest price at top, price is equal then lowest qunatity is at top, if both equal oldest order at the top
+        // highest price at top, price is equal then lowest qunatity is at top, if both equal oldest order at the top
         public:
         bool compare(const Order &leftOrder, const Order &rightOrder) const noexcept
         {

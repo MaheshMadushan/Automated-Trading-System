@@ -22,5 +22,6 @@ order -> matching engine -> *process -> order not matched -> put all/remaining o
 
 int main() {
     printf("hi\n");
+    // start matching engine thread
     return 0;
 }

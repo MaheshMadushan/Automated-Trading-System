@@ -2,6 +2,14 @@
 
 using namespace orderbook;
 
+
+void OrderBook::removeOrder(const Order &order_to_remove)
+{
+    // order removal - 
+        // will deactivate order. EOD will clean up the orders from the list
+}
+
+// should we use polymorphism? (for buy and sell order additions)
 void OrderBook::addOrder(const orderbook::Order &order_to_add)
 {
     const OrderKey orderKey(order_to_add);
@@ -19,10 +27,6 @@ void OrderBook::addOrder(const orderbook::Order &order_to_add)
     {
         // unhandled order type
     }
-}
-
-void OrderBook::removeOrder(const Order &order_to_remove)
-{
 }
 
 OrderBook::SellOrderPriorityQueue OrderBook::getSellOrders() const

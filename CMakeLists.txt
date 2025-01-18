@@ -24,6 +24,8 @@ enable_testing()
 
 add_executable(
     run_tests
+    src/matching/matchingengine.hpp
+    src/matching/matchingengine.cpp
     src/orderbook/OrderBook.cpp
     src/orderbook/OrderBook.hpp
     tests/OrderBookTest.cpp

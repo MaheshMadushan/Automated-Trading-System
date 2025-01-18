@@ -28,16 +28,16 @@ protected:
   {
     symbol_to_index_map = {{"AAPL", 1}, {"GOOG", 2}, {"NVDA", 3}};
     sell_orders = {
-        // time_stamp  quantity  price   instrument    order_type
+                      // time_stamp,quantity,price,instrument,order_type
         orderbook::Order{100, 10, 10, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{200, 15, 300, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{300, 16, 150, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{400, 4, 8, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{150, 8, 45, 1, orderbook::Order::OrderType::SELL},
-        orderbook::Order{100, 10, 10, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{388, 3, 280, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{498, 45, 298, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{1000, 900, 344, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{99, 10, 10, 1, orderbook::Order::OrderType::SELL},
         orderbook::Order{500, 99, 388, 1, orderbook::Order::OrderType::SELL}};
     buy_orders = {
         orderbook::Order{100, 10, 10, 1, orderbook::Order::OrderType::BUY},
@@ -92,5 +92,35 @@ TEST_F(OrderBookTest, OrderBook_Add_Buy_Orders)
     EXPECT_TRUE(buy_ordr == priority_orderd_buy_orders[index]);
     buy_ordrs.pop();
     index++;
+  }
+}
+
+TEST_F(OrderBookTest, OrderBook_Add_Sell_Orders)
+{
+  orderbook::OrderBook order_book;
+  for (const auto order : OrderBookTest::sell_orders)
+  {
+    order_book.addOrder(order);
+  }
+  std::vector<orderbook::Order> priority_orderd_sell_orders = {
+        orderbook::Order{500, 99, 388, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{1000, 900, 344, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{200, 15, 300, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{498, 45, 298, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{388, 3, 280, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{300, 16, 150, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{150, 8, 45, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{100, 10, 10, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{99, 10, 10, 1, orderbook::Order::OrderType::SELL},
+        orderbook::Order{400, 4, 8, 1, orderbook::Order::OrderType::SELL}};        
+
+  auto sell_ordrs = order_book.getSellOrders();
+  int index = priority_orderd_sell_orders.size() - 1; // reverse order, feeling lazy to reverse vector definition 🥱
+  while (sell_ordrs.empty() != true)
+  {
+    orderbook::Order sell_ordr = sell_ordrs.top();
+    EXPECT_TRUE(sell_ordr == priority_orderd_sell_orders[index]);
+    sell_ordrs.pop();
+    index--;
   }
 }
