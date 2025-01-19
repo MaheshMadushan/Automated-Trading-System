@@ -29,12 +29,12 @@ void OrderBook::addOrder(const orderbook::Order &order_to_add)
     }
 }
 
-OrderBook::SellOrderPriorityQueue OrderBook::getSellOrders() const
+OrderBook::SellOrderPriorityQueue& OrderBook::getSellOrders()
 {
     return m_sell_orders_priority_q;
 }
 
-OrderBook::BuyOrderPriorityQueue OrderBook::getBuyOrders() const
+OrderBook::BuyOrderPriorityQueue& OrderBook::getBuyOrders()
 {
     return m_buy_orders_priority_q;
 }

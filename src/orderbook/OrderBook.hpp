@@ -34,7 +34,8 @@ namespace orderbook
         }
 
         void toString() {
-            std::cout << time_stamp << " " << quantity << " " << price << " " << instrument << " " << static_cast<int>(order_type) << std::endl;
+            std::cout << "time_stamp=" << time_stamp << " quantity=" << quantity << " price=" << price << " instrument=" << instrument 
+                << " order_type=" << (order_type == OrderType::SELL ? "SELL" : "BUY") << std::endl;
         }
     };
 
@@ -142,8 +143,8 @@ namespace orderbook
         void addOrder(const orderbook::Order &order_to_add);
         void removeOrder(const Order &order_to_remove);
 
-        SellOrderPriorityQueue getSellOrders() const;
-        BuyOrderPriorityQueue getBuyOrders() const;
+        SellOrderPriorityQueue& getSellOrders();
+        BuyOrderPriorityQueue& getBuyOrders();
     };
 
 } // namespace orderbook
