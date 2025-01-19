@@ -24,11 +24,12 @@ enable_testing()
 
 add_executable(
     run_tests
-    src/matching/matchingengine.hpp
-    src/matching/matchingengine.cpp
+    src/matching/MatchingEngine.hpp
+    src/matching/MatchingEngine.cpp
     src/orderbook/OrderBook.cpp
     src/orderbook/OrderBook.hpp
     tests/OrderBookTest.cpp
+    tests/Setup.hpp
 )
 
 target_link_libraries(
