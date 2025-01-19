@@ -19,14 +19,12 @@ TEST_F(BaseTest, Matching_Algorithm_Test)
   while (sell_ordrs.empty() != true)
   {
     orderbook::Order sell_ordr = sell_ordrs.top();
-    sell_ordr.toString();
     sell_ordrs.pop();
   }
 
   while (buy_ordrs.empty() != true)
   {
     orderbook::Order buy_ordr = buy_ordrs.top();
-    buy_ordr.toString();
     buy_ordrs.pop();
   }
 }

@@ -46,7 +46,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
             }
             else
             {
-                
+                orderbook->addOrder(outstanding_buy_order);
                 orderbook->addOrder(order);
                 return;
             }
@@ -79,6 +79,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
             }
             else
             {
+                orderbook->addOrder(outstanding_sell_order);
                 orderbook->addOrder(order);
                 return;
             }
@@ -92,7 +93,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
 
 }
 
-orderbook::OrderBook *MatchingEngine::getOrderBook(const InstrumentIndex& instrumentIndex) const
+orderbook::OrderBook* MatchingEngine::getOrderBook(const InstrumentIndex& instrumentIndex) const
 {
     auto it = instrument_to_order_books_map.find(instrumentIndex);
     if (it == instrument_to_order_books_map.end())

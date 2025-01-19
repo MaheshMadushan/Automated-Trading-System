@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <chrono>
 
 namespace orderbook
 {
@@ -34,7 +35,7 @@ namespace orderbook
         }
 
         void toString() {
-            std::cout << "time_stamp=" << time_stamp << " quantity=" << quantity << " price=" << price << " instrument=" << instrument 
+            std::cout << "time_stamp=" << time_stamp << " quantity=" << quantity << " price=" << price << " instrument_index=" << instrument 
                 << " order_type=" << (order_type == OrderType::SELL ? "SELL" : "BUY") << std::endl;
         }
     };
@@ -126,11 +127,6 @@ namespace orderbook
     {
         typedef std::priority_queue<Order, std::vector<Order>, SellOrderPriorityCompartor> SellOrderPriorityQueue;
         typedef std::priority_queue<Order, std::vector<Order>, BuyOrderPriorityCompartor> BuyOrderPriorityQueue;
-    private:
-        std::unordered_map<orderbook::OrderKey, Order, OrderHash> m_all_orders; // let's think about hashing
-        SellOrderPriorityQueue m_sell_orders_priority_q;
-        BuyOrderPriorityQueue m_buy_orders_priority_q;
-
     public:
         OrderBook(){};
 
@@ -145,6 +141,17 @@ namespace orderbook
 
         SellOrderPriorityQueue& getSellOrders();
         BuyOrderPriorityQueue& getBuyOrders();
+
+        void getOrderBookCurrentSnapshot(std::vector<Order> &buy_ords, std::vector<Order> &sell_ords) const;
+    
+    private:
+        SellOrderPriorityQueue getSellOrders() const;
+        BuyOrderPriorityQueue getBuyOrders() const;
+
+        std::unordered_map<orderbook::OrderKey, Order, OrderHash> m_all_orders; // let's think about hashing
+        SellOrderPriorityQueue m_sell_orders_priority_q;
+        BuyOrderPriorityQueue m_buy_orders_priority_q;
+
     };
 
 } // namespace orderbook
