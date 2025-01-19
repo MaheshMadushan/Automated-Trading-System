@@ -17,6 +17,10 @@ set(SOURCES
 
 add_executable(
         ats
+        src/matching/MatchingEngine.hpp
+        src/matching/MatchingEngine.cpp
+        src/orderbook/OrderBook.cpp
+        src/orderbook/OrderBook.hpp
         src/main.cpp
     )
 

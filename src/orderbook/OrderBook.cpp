@@ -38,3 +38,29 @@ OrderBook::BuyOrderPriorityQueue& OrderBook::getBuyOrders()
 {
     return m_buy_orders_priority_q;
 }
+
+void orderbook::OrderBook::getOrderBookCurrentSnapshot(std::vector<Order> &asks, std::vector<Order> &bids) const
+{
+    auto sell_ordrs = getSellOrders();
+    auto buy_ordrs = getBuyOrders();
+    while (sell_ordrs.empty() != true)
+    {
+        bids.push_back(sell_ordrs.top());
+        sell_ordrs.pop();
+    }
+    while (buy_ordrs.empty() != true)
+    {
+        asks.push_back(buy_ordrs.top());
+        buy_ordrs.pop();
+    }
+}
+
+OrderBook::SellOrderPriorityQueue orderbook::OrderBook::getSellOrders() const
+{
+    return m_sell_orders_priority_q;
+}
+
+OrderBook::BuyOrderPriorityQueue orderbook::OrderBook::getBuyOrders() const
+{
+    return m_buy_orders_priority_q;
+}
