@@ -34,6 +34,7 @@ void validateInput()
 int main() {
     // start matching engine thread
     const std::unordered_map<std::string, int> markets = {{"AAPL", 1}, {"GOOG", 2}, {"NVDA", 3}}; // instruments
+
     orderbook::Order incoming_order;
     MatchingEngine me({1});
     while (true)
@@ -43,6 +44,7 @@ int main() {
         incoming_order.order_type = static_cast<orderbook::Order::OrderType>(order_type-1);
         getInput<int>("Price ?", incoming_order.price);
         getInput<long>("Quantity ?", incoming_order.quantity);
+
 
         const auto now     = std::chrono::system_clock::now();
         const auto epoch   = now.time_since_epoch();
@@ -65,6 +67,7 @@ int main() {
             it++;
         }
         std::cout << "==============Bids==============\n";
+        std::cout << "==============================================\n";
         for (auto& bid : bids)
         {
             bid.toString();
