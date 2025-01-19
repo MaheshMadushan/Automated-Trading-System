@@ -19,22 +19,33 @@ order -> matching engine -> *process -> order not matched -> put all/remaining o
                             v
                             update order book
 */
+template<typename T>
+void getInput(std::string prompt, T& output)
+{
+    std::cout << prompt << "\n";
+    std::cin >> output;
+};
+
+void validateInput()
+{
+
+};
 
 int main() {
     // start matching engine thread
+    const std::unordered_map<std::string, int> markets = {{"AAPL", 1}, {"GOOG", 2}, {"NVDA", 3}}; // instruments
+
     orderbook::Order incoming_order;
     MatchingEngine me({1});
     while (true)
     {
-        std::cout << "Enter price, quantity and order type for AAPL (index = 1) instrument\n";
-        std::cout << "Buy (2) or Sell (1) order ?\n";
         int order_type;
-        std::cin >> order_type;
+        getInput<int>("Enter price, quantity and order type for AAPL (index = 1) instrument\nBid (1) or Ask (2) order ?", order_type);
         incoming_order.order_type = static_cast<orderbook::Order::OrderType>(order_type-1);
-        std::cout << "Price ?\n";
-        std::cin >> incoming_order.price;
-        std::cout << "Quantity ?\n";
-        std::cin >> incoming_order.quantity;
+        getInput<int>("Price ?", incoming_order.price);
+        getInput<long>("Quantity ?", incoming_order.quantity);
+
+
         const auto now     = std::chrono::system_clock::now();
         const auto epoch   = now.time_since_epoch();
         incoming_order.time_stamp = epoch.count();
@@ -46,13 +57,16 @@ int main() {
         std::vector<orderbook::Order> bids;
         me.getOrderBook(1)->getOrderBookCurrentSnapshot(asks, bids);
 
-        std::cout << "\n==============OrderBook Snapshot==============\n";
+        std::cout << "\n++++++++++++++OrderBook Snapshot++++++++++++++\n";
+        std::cout << "\n==============Asks==============\n";
+
         auto it = asks.rbegin();
         while (it != asks.rend())
         {
             it->toString();
             it++;
         }
+        std::cout << "==============Bids==============\n";
         std::cout << "==============================================\n";
         for (auto& bid : bids)
         {

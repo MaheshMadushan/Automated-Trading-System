@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <chrono>
 
 namespace orderbook
 {
@@ -34,7 +35,7 @@ namespace orderbook
         }
 
         void toString() {
-            std::cout << "time_stamp=" << time_stamp << " quantity=" << quantity << " price=" << price << " instrument=" << instrument 
+            std::cout << "time_stamp=" << time_stamp << " quantity=" << quantity << " price=" << price << " instrument_index=" << instrument 
                 << " order_type=" << (order_type == OrderType::SELL ? "SELL" : "BUY") << std::endl;
         }
     };

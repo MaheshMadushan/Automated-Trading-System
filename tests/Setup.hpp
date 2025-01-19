@@ -7,7 +7,6 @@ protected:
   std::map<std::string, int> symbol_to_index_map;
   std::vector<orderbook::Order> sell_orders;
   std::vector<orderbook::Order> buy_orders;
-
   /*
     struct Order
     {
