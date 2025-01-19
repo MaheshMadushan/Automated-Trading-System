@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
+#include "../src/orderbook/OrderBook.hpp"
 
-class OrderBookTest : public testing::Test
+class BaseTest : public testing::Test
 {
 protected:
   std::map<std::string, int> symbol_to_index_map;

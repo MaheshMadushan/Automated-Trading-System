@@ -29,6 +29,7 @@ add_executable(
     src/orderbook/OrderBook.cpp
     src/orderbook/OrderBook.hpp
     tests/OrderBookTest.cpp
+    tests/MatchingEngineTest.cpp
     tests/Setup.hpp
 )
 

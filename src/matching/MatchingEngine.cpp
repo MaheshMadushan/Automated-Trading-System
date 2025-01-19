@@ -1,4 +1,13 @@
-#include "matchingengine.hpp"
+#include "MatchingEngine.hpp"
+
+MatchingEngine::MatchingEngine(std::vector<InstrumentIndex> instrument_indexes)
+{
+    for (auto& instrument_index : instrument_indexes)
+    {
+        instrument_to_order_books_map[instrument_index] = 
+            new orderbook::OrderBook();
+    }
+}
 
 void MatchingEngine::matchOrder(orderbook::Order &order)
 {
@@ -16,9 +25,10 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
 
     if (orderbook::Order::OrderType::SELL == order.order_type)
     {
-        auto outstanding_buy_order = orderbook->getBuyOrders().top();
+        orderbook::Order outstanding_buy_order{};
         while (orderbook->getBuyOrders().empty() != true)
         {
+            outstanding_buy_order = orderbook->getBuyOrders().top();
             orderbook->getBuyOrders().pop();
             if (outstanding_buy_order.price >= order.price)
             {
@@ -33,20 +43,25 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
                 }
                 order.quantity -= outstanding_buy_order.quantity;
                 outstanding_buy_order.quantity = 0;
-                outstanding_buy_order = orderbook->getBuyOrders().top();
             }
             else
             {
+                
                 orderbook->addOrder(order);
                 return;
             }
         }
+        if (orderbook->getBuyOrders().empty() == true)
+        {
+            orderbook->addOrder(order);
+        }
     }
     else if (orderbook::Order::OrderType::BUY == order.order_type)
     {
-        auto outstanding_sell_order = orderbook->getSellOrders().top();
+        orderbook::Order outstanding_sell_order{};
         while (orderbook->getSellOrders().empty() != true)
         {
+            outstanding_sell_order = orderbook->getSellOrders().top();
             orderbook->getSellOrders().pop();
             if (outstanding_sell_order.price <= order.price)
             {
@@ -61,7 +76,6 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
                 }
                 order.quantity -= outstanding_sell_order.quantity;
                 outstanding_sell_order.quantity = 0;
-                outstanding_sell_order = orderbook->getSellOrders().top();
             }
             else
             {
@@ -69,6 +83,21 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
                 return;
             }
         }
+
+        if (orderbook->getSellOrders().empty() == true)
+        {
+            orderbook->addOrder(order);
+        }
     }
 
+}
+
+orderbook::OrderBook *MatchingEngine::getOrderBook(const InstrumentIndex& instrumentIndex) const
+{
+    auto it = instrument_to_order_books_map.find(instrumentIndex);
+    if (it == instrument_to_order_books_map.end())
+    {
+        return nullptr;
+    }
+    return it->second;
 }

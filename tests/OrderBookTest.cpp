@@ -1,9 +1,8 @@
-#include "../src/orderbook/OrderBook.hpp"
-#include "setup.hpp"
+#include "Setup.hpp"
 
-TEST_F(OrderBookTest, OrderBook_Hash_Consistentency_Test)
+TEST_F(BaseTest, OrderBook_Hash_Consistentency_Test)
 {
-  for (const auto &order : OrderBookTest::buy_orders)
+  for (const auto &order : BaseTest::buy_orders)
   {
     auto hash = orderbook::OrderHash{}(orderbook::OrderKey(order));
     EXPECT_EQ(
@@ -13,10 +12,10 @@ TEST_F(OrderBookTest, OrderBook_Hash_Consistentency_Test)
   }
 }
 
-TEST_F(OrderBookTest, OrderBook_Add_Buy_Orders)
+TEST_F(BaseTest, OrderBook_Add_Buy_Orders)
 {
   orderbook::OrderBook order_book;
-  for (const auto order : OrderBookTest::buy_orders)
+  for (const auto order : BaseTest::buy_orders)
   {
     order_book.addOrder(order);
   }
@@ -43,10 +42,10 @@ TEST_F(OrderBookTest, OrderBook_Add_Buy_Orders)
   }
 }
 
-TEST_F(OrderBookTest, OrderBook_Add_Sell_Orders)
+TEST_F(BaseTest, OrderBook_Add_Sell_Orders)
 {
   orderbook::OrderBook order_book;
-  for (const auto order : OrderBookTest::sell_orders)
+  for (const auto order : BaseTest::sell_orders)
   {
     order_book.addOrder(order);
   }
