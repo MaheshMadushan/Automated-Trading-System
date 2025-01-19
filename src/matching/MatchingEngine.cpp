@@ -25,6 +25,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
 
     if (orderbook::Order::OrderType::SELL == order.order_type)
     {
+        std::cout << "addd";
         orderbook::Order outstanding_buy_order{};
         while (orderbook->getBuyOrders().empty() != true)
         {
@@ -46,7 +47,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
             }
             else
             {
-                
+                orderbook->addOrder(outstanding_buy_order);
                 orderbook->addOrder(order);
                 return;
             }
@@ -79,6 +80,7 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
             }
             else
             {
+                orderbook->addOrder(outstanding_sell_order);
                 orderbook->addOrder(order);
                 return;
             }
