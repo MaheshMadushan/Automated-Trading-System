@@ -25,7 +25,7 @@ namespace orderbook
         long instrument; // read size from configs
         OrderType order_type;
 
-        bool operator==(const Order& other)
+        bool operator==(const Order& other) const
         {
             return (this->time_stamp == other.time_stamp &&
                     this->quantity == other.quantity &&
