@@ -21,6 +21,7 @@ void OrderBook::addOrder(const orderbook::Order &order_to_add)
     }
     else if (Order::OrderType::SELL == order_to_add.order_type)
     {
+        std::cout << "add";
         m_sell_orders_priority_q.emplace(order_to_add);
     }
     else
