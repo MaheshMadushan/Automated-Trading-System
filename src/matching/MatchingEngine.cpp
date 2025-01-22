@@ -25,7 +25,6 @@ void MatchingEngine::matchOrder(orderbook::Order &order)
 
     if (orderbook::Order::OrderType::SELL == order.order_type)
     {
-        std::cout << "addd";
         orderbook::Order outstanding_buy_order{};
         while (orderbook->getBuyOrders().empty() != true)
         {
