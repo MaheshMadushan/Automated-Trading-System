@@ -46,16 +46,13 @@ TEST_F(BaseTest, Matching_Algorithm_Test_Add_Mtaching_Buy_and_Multiple_Sell_Orde
   long instrumentIndex(symbol_to_index_map["AAPL"]);
   MatchingEngine me{{instrumentIndex}};
                                 // time_stamp,quantity,price,instrument,order_type
-  auto order1 = orderbook::Order{400, 4, 10, 1, orderbook::Order::OrderType::SELL};
-  auto order2 = orderbook::Order{401, 4, 9, 1, orderbook::Order::OrderType::SELL};
-  auto order3 = orderbook::Order{402, 4, 8, 1, orderbook::Order::OrderType::SELL};
-  auto order4 = orderbook::Order{403, 4, 8, 1, orderbook::Order::OrderType::SELL};
-  auto order5 = orderbook::Order{400, 17, 10, 1, orderbook::Order::OrderType::BUY};
-  me.matchOrder(order1);
-  me.matchOrder(order2);
-  me.matchOrder(order3);
-  me.matchOrder(order4);
-  me.matchOrder(order5);
+  auto orders = {orderbook::Order{400, 4, 10, 1, orderbook::Order::OrderType::SELL},
+                 orderbook::Order{401, 4, 9, 1, orderbook::Order::OrderType::SELL},
+                 orderbook::Order{402, 4, 8, 1, orderbook::Order::OrderType::SELL},
+                 orderbook::Order{403, 4, 8, 1, orderbook::Order::OrderType::SELL},
+                 orderbook::Order{400, 17, 10, 1, orderbook::Order::OrderType::BUY}};
+  for (auto& order : orders)
+    me.matchOrder(const_cast<orderbook::Order&>(order));
 
   auto sell_ordrs = me.getOrderBook(instrumentIndex)->getSellOrders();
   auto buy_ordrs = me.getOrderBook(instrumentIndex)->getBuyOrders();
