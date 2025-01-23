@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 project(mini-ats)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
@@ -21,7 +21,7 @@ add_executable(
         src/matching/MatchingEngine.cpp
         src/orderbook/OrderBook.cpp
         src/orderbook/OrderBook.hpp
-        src/main.cpp
+        src/cli_demo.cpp
     )
 
 enable_testing()
@@ -44,3 +44,20 @@ target_link_libraries(
 
 include(GoogleTest)
 gtest_discover_tests(run_tests)
+
+FetchContent_Declare(
+  benchmark
+  GIT_REPOSITORY https://github.com/google/benchmark.git
+  GIT_TAG        c58e6d0710581e3a08d65c349664128a8d9a2461 # release-1.9.1
+  FIND_PACKAGE_ARGS NAMES GTest
+)
+FetchContent_MakeAvailable(benchmark)
+
+find_package(benchmark REQUIRED)
+
+add_executable(
+    benchmark_ats
+    src/benchmark/benchmark.cpp
+)
+
+target_link_libraries(benchmark_ats benchmark::benchmark)
