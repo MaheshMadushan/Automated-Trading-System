@@ -3,7 +3,7 @@
 - `make ats` - builds ats
 - `make run_tests` - builds tests
 - `make benchmark_ats` - builds benchmarking binary
-- 
+  
 # Running ATS after the build
 - `cd build && ./ats`
 
