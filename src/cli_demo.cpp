@@ -39,7 +39,7 @@ int main() {
     while (true)
     {
         int order_type;
-        getInput<int>("Enter price, quantity and order type for AAPL (index = 1) instrument\nBid (1) or Ask (2) order ?", order_type);
+        getInput<int>("Enter price, quantity and order type for AAPL (index = 1) instrument\nAsk (1) or Bid (2) order ?", order_type);
         incoming_order.order_type = static_cast<orderbook::Order::OrderType>(order_type-1);
         getInput<int>("Price ?", incoming_order.price);
         getInput<long>("Quantity ?", incoming_order.quantity);
@@ -52,7 +52,7 @@ int main() {
 
         std::vector<orderbook::Order> asks;
         std::vector<orderbook::Order> bids;
-        me.getOrderBook(1)->getOrderBookCurrentSnapshot(asks, bids);
+        me.getOrderBook(1)->getOrderBookCurrentSnapshot(bids, asks);
 
         std::cout << "\n++++++++++++++OrderBook Snapshot++++++++++++++\n";
         std::cout << "\n==============Asks==============\n";
@@ -64,8 +64,6 @@ int main() {
             it++;
         }
         std::cout << "==============Bids==============\n";
-        std::cout << "==============================================\n";
-
         for (auto& bid : bids)
         {
             bid.toString();
