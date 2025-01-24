@@ -17,7 +17,8 @@
 
 # perf benchmarking of Price/Time Priority Algorithm implementation
 - Test bench
-`PRETTY_NAME="Ubuntu 22.04.5 LTS"
+`
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
 NAME="Ubuntu"
 VERSION_ID="22.04"
 VERSION="22.04.5 LTS (Jammy Jellyfish)"
@@ -28,5 +29,6 @@ HOME_URL="https://www.ubuntu.com/"
 SUPPORT_URL="https://help.ubuntu.com/"
 BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
-UBUNTU_CODENAME=jammy`
+UBUNTU_CODENAME=jammy
+`
 ![{4943D000-4EA1-408B-AB33-9350DED2E54B}](https://github.com/user-attachments/assets/3a078ab6-5acf-4400-8f86-4ebdc6b49889)
