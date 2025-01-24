@@ -58,6 +58,11 @@ find_package(benchmark REQUIRED)
 add_executable(
     benchmark_ats
     src/benchmark/benchmark.cpp
+    src/matching/MatchingEngine.cpp
+    src/matching/MatchingEngine.hpp
+    src/orderbook/OrderBook.cpp
+    src/orderbook/OrderBook.hpp
+    tests/Setup.hpp
 )
 
 target_link_libraries(benchmark_ats benchmark::benchmark)
